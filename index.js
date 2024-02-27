@@ -24,9 +24,16 @@ async function main() {
   // Lista de Personagens
   const lista = ["Ricky Sanchez", "Morty Smith", "Summer Smith"];
 
+  const db = client .db(dbName)
+  const collection = db.collection('items')
+
   // Read All -> [GET] item
-  app.get("/item", function (req, res) {
-    res.send(lista);
+  app.get("/item", async function (req, res) {
+    // Operação de find na collection do MongoDB
+    const items = await collection.find().toArray()
+    
+    // Envio de todos documentos como resposta HTTP
+    res.send(items);
   });
 
   // Read by ID -> [GET] item/:id
